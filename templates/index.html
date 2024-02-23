@@ -5,53 +5,81 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Beam Analysis Input Form</title>
     <link rel="stylesheet" href="{{ url_for('static',filename='style.css') }}" />
-    <script src="{{ url_for('static',filename='script.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static',filename='result.css') }}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/10.0.0/math.min.js"></script>
   </head>
   <body>
-    <form id="beamForm">
-      <h2>Beam Analysis Input</h2>
+    <div class="container">
+      <div class="title">
+        <h2>Statically Indeterminate Beams</h2>
+        <div class="description">
+          <p>
+            Beams classified as statically indeterminate present a challenge
+            in determining reactions through conventional rigid body equilibrium 
+            analysis. This complexity arises due to the imbalance between the number 
+            of unknowns and the available equilibrium equations. In such scenarios, 
+            the usual methods of solving for reactions become insufficient.
+          </p>
+          <p>
+            This is a simple web application that calculates the reactions and
+            internal forces of statically indeterminate beams. The application
+            uses the slope-deflection method to solve the beam. The user is
+            required to input the necessary information about the beam, and the
+            application will calculate the reactions and internal forces.
+          </p>
+        </div>
+      </div>
+      <form id="beamForm">
+        <h2>Fill in the required field in order to calculate</h2>
+        <div>
+          <div>
+            <!-- Number of Supports -->
+            <label for="numSupports">Number of Supports:</label>
+            <input type="number" id="numSupports" name="numSupports" placeholder="Enter no. of supports" required /><br />
+          </div>
+          <div>
+            <!-- Number of Internal Joints -->
+            <label for="numJoints">Number of Internal Joints:</label>
+            <input type="number" id="numJoints" name="numJoints" placeholder="Enter no. of internal joints" required /><br />
+          </div>
+        </div>
+        <!-- Spans Information -->
+        <label for="numSpans">Number of Spans:</label>
+        <input type="number" id="numSpans" name="numSpans" placeholder="Enter no. of spans" required /><br />
+        <!-- Dynamic Span Information -->
+        <div id="spanDetails"></div>
+        <!-- Settlement Information -->
+        <label for="settlement">Is there any settlement?</label>
+        <select id="settlement" name="settlement">
+          <option value="yes">Yes</option>
+          <option value="no" selected>No</option></select
+        ><br />
+        <div id="settlementDetails"></div>
+        <!-- Fixed Nodes Information -->
+        <label for="firstNodeFixed">Is the first node fixed?</label>
+        <select id="firstNodeFixed" name="firstNodeFixed">
+          <option value="yes">Yes</option>
+          <option value="no" selected>No</option></select
+        ><br />
+        <label for="lastNodeFixed">Is the last node fixed?</label>
+        <select id="lastNodeFixed" name="lastNodeFixed">
+          <option value="yes">Yes</option>
+          <option value="no" selected>No</option></select
+        ><br />
+        <button type="submit" id="openModal" class="submit">Calculate</button>
+      </form>
+    </div>
+    <div id="myModal" class="modal">
+      <div id="results">
+        
+        <button id="closeModal">Close</button>
+      </div>
+    </div>
+    <div id="overlay" class="overlay"></div>
 
-      <!-- Number of Supports -->
-      <label for="numSupports">Number of Supports:</label>
-      <input type="number" id="numSupports" name="numSupports" required /><br />
-
-      <!-- Number of Internal Joints -->
-      <label for="numJoints">Number of Internal Joints:</label>
-      <input type="number" id="numJoints" name="numJoints" required /><br />
-      <hr />
-      <!-- Spans Information -->
-      <label for="numSpans">Number of Spans:</label>
-      <input type="number" id="numSpans" name="numSpans" required /><br />
-
-      <!-- Dynamic Span Information -->
-      <div id="spanDetails"></div>
-      <hr />
-
-      <!-- Settlement Information -->
-      <label for="settlement">Is there any settlement?</label>
-      <select id="settlement" name="settlement">
-        <option value="yes">Yes</option>
-        <option value="no" selected>No</option></select
-      ><br />
-      <div id="settlementDetails"></div>
-
-      <!-- Fixed Nodes Information -->
-      <label for="firstNodeFixed">Is the first node fixed?</label>
-      <select id="firstNodeFixed" name="firstNodeFixed">
-        <option value="yes">Yes</option>
-        <option value="no" selected>No</option></select
-      ><br />
-
-      <label for="lastNodeFixed">Is the last node fixed?</label>
-      <select id="lastNodeFixed" name="lastNodeFixed">
-        <option value="yes">Yes</option>
-        <option value="no" selected>No</option></select
-      ><br />
-
-      <button type="submit">Submit</button>
-    </form>
-
-
+    <script src="{{ url_for('static',filename='index.js') }}"></script>
   </body>
 </html>
